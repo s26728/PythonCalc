@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Calculator</title>
-
     <style>
         table {
             border: 1px solid black;
@@ -21,11 +20,22 @@
             border: none;
             border-radius: 5px;
         }
+        input[type="button"][disabled] {
+            width: 100%;
+            padding: 20px 40px;
+            background-color: gray;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+        }
 
         input[type="text"] {
             padding: 20px 30px;
             font-size: 24px;
             font-weight: bold;
+            border: none;
             border-radius: 5px;
             border: 2px solid black;
         }
@@ -34,8 +44,14 @@
 <body>
 <table id="calc_buttons">
         <tr>
-            <td colspan="3">
-                <input type="text" id="result" value="{{value}}">
+            <td colspan="1">
+                <input type="text" id="current_value" value="{{value}}">
+            </td>
+            <td colspan="1">
+                <input type="text" id="operator">
+            </td>
+            <td colspan="1">
+                <input type="text" id="next_value">
             </td>
             <td><input type="button" value="c"></td>
         </tr>
@@ -44,40 +60,66 @@
             <td><input type="button" value="1" onclick="addElement(this)"></td>
             <td><input type="button" value="2" onclick="addElement(this)"></td>
             <td><input type="button" value="3" onclick="addElement(this)"></td>
-            <td><input type="button" value="/"></td>
+            <td><input type="button" id="division" value="/"></td>
         </tr>
         <tr>
             <td><input type="button" value="4" onclick="addElement(this)"></td>
             <td><input type="button" value="5" onclick="addElement(this)"></td>
             <td><input type="button" value="6" onclick="addElement(this)"></td>
-            <td><input type="button" value="*" onclick="addElement(this)"></td>
+            <td><input type="button" id="multiplication" value="*" onclick="addElement(this)"></td>
         </tr>
         <tr>
             <td><input type="button" value="7" onclick="addElement(this)"></td>
             <td><input type="button" value="8" onclick="addElement(this)"></td>
             <td><input type="button" value="9" onclick="addElement(this)"></td>
-            <td><input type="button" value="-"></td>
+            <td><input type="button" id="subtraction" value="-"></td>
         </tr>
         <tr>
             <td><input type="button" value="0" onclick="addElement(this)"></td>
             <td><input type="button" value="." onclick="addElement(this)"></td>
-            <td><input type="button" value="="></td>
-            <td><input type="button" value="+" onclick="addition()"></td>
+            <td><input type="button" value="=" onclick="getResult()"></td>
+            <td><input type="button" id="addition" value="+" onclick="additionLock()"></td>
         </tr>
     </table>
 </body>
 <script>
-function addElement(linkElement)
-    {
-        document.getElementById("result").value += linkElement.value;
+    function getResult() {
+        if(document.getElementById("operator").value == "+") {
+            addition();
+            unlockOperationButtons();
+        }
     }
-function addition() {
-     fetch('/addition?' + new URLSearchParams({
-         x: document.getElementById("result").value,
-         y: document.getElementById("result").value
-    })).then(response => response.json()).then(data => {
-        document.getElementById("result").value = data.result;
-     });
+    function addElement(linkElement) {
+        document.getElementById("next_value").value += linkElement.value;
+    }
+    function additionLock() {
+        document.getElementById("operator").value = "+";
+        lockOperationButtons();
+    }
+    function addition() {
+        fetch('/addition?' + new URLSearchParams({
+            x: document.getElementById("current_value").value,
+            y: document.getElementById("next_value").value
+        }))
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("current_value").value = data.result;
+                document.getElementById("next_value").value = null;
+                document.getElementById("operator").value = null;
+            });
+    }
+    function lockOperationButtons() {
+        document.getElementById("addition").disabled = true;
+        document.getElementById("subtraction").disabled = true;
+        document.getElementById("multiplication").disabled = true;
+        document.getElementById("division").disabled = true;
+    }
+
+    function unlockOperationButtons() {
+        document.getElementById("addition").disabled = false;
+        document.getElementById("subtraction").disabled = false;
+        document.getElementById("multiplication").disabled = false;
+        document.getElementById("division").disabled = false;
 }
 </script>
 </html>
