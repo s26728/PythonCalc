@@ -62,14 +62,22 @@
             <td><input type="button" value="0" onclick="addElement(this)"></td>
             <td><input type="button" value="." onclick="addElement(this)"></td>
             <td><input type="button" value="="></td>
-            <td><input type="button" value="+"></td>
+            <td><input type="button" value="+" onclick="addition()"></td>
         </tr>
     </table>
 </body>
 <script>
 function addElement(linkElement)
     {
-        document.getElementById("result").value = document.getElementById("result").value + linkElement.value;
+        document.getElementById("result").value += linkElement.value;
     }
+function addition() {
+     fetch('/addition?' + new URLSearchParams({
+         x: document.getElementById("result").value,
+         y: document.getElementById("result").value
+    })).then(response => response.json()).then(data => {
+        document.getElementById("result").value = data.result;
+     });
+}
 </script>
 </html>

@@ -1,7 +1,7 @@
 class Calculator:
 
     def __init__(self):
-        self.value = 0
+        self.value = 1
     def add(self, x, y):
         return x + y
 
