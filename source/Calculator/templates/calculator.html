@@ -45,7 +45,7 @@
 <table id="calc_buttons">
         <tr>
             <td colspan="3">
-                <input type="text" id="value" value="{{value}}">
+                <input type="text" id="expression">
             </td>
 <!--            <td colspan="1">-->
 <!--                <input type="text" id="operator">-->
@@ -53,14 +53,14 @@
 <!--            <td colspan="1">-->
 <!--                <input type="text" id="next_value">-->
 <!--            </td>-->
-            <td><input type="button" value="c"></td>
+            <td><input type="button" value="c" onclick="reset()"></td>
         </tr>
 
         <tr>
             <td><input type="button" value="1" onclick="addElement(this)"></td>
             <td><input type="button" value="2" onclick="addElement(this)"></td>
             <td><input type="button" value="3" onclick="addElement(this)"></td>
-            <td><input type="button" id="division" value="/"></td>
+            <td><input type="button" id="division" value="/" onclick="addElement(this)"></td>
         </tr>
         <tr>
             <td><input type="button" value="4" onclick="addElement(this)"></td>
@@ -72,40 +72,37 @@
             <td><input type="button" value="7" onclick="addElement(this)"></td>
             <td><input type="button" value="8" onclick="addElement(this)"></td>
             <td><input type="button" value="9" onclick="addElement(this)"></td>
-            <td><input type="button" id="subtraction" value="-"></td>
+            <td><input type="button" id="subtraction" value="-" onclick="addElement(this)"></td>
         </tr>
         <tr>
             <td><input type="button" value="0" onclick="addElement(this)"></td>
             <td><input type="button" value="." onclick="addElement(this)"></td>
             <td><input type="button" value="=" onclick="getResult()"></td>
-            <td><input type="button" id="addition" value="+" onclick="additionLock()"></td>
+            <td><input type="button" id="addition" value="+" onclick="addElement(this)"></td>
         </tr>
     </table>
 </body>
 <script>
     function getResult() {
-        if(document.getElementById("operator").value == "+") {
-            addition();
-            unlockOperationButtons();
-        }
+        solve();
+    }
+    function reset() {
+        document.getElementById("expression").value = "";
     }
     function addElement(linkElement) {
-        document.getElementById("next_value").value += linkElement.value;
+        document.getElementById("expression").value += linkElement.value;
     }
-    function additionLock() {
-        document.getElementById("operator").value = "+";
-        lockOperationButtons();
-    }
-    function addition() {
-        fetch('/addition?' + new URLSearchParams({
-            x: document.getElementById("current_value").value,
-            y: document.getElementById("next_value").value
+    // function additionLock() {
+    //     document.getElementById("operator").value = "+";
+    //     lockOperationButtons();
+    // }
+    function solve() {
+        fetch('/solve?' + new URLSearchParams({
+            expression: document.getElementById("expression").value,
         }))
             .then(response => response.json())
             .then(data => {
-                document.getElementById("current_value").value = data.result;
-                document.getElementById("next_value").value = null;
-                document.getElementById("operator").value = null;
+                document.getElementById("expression").value = data.result;
             });
     }
     function lockOperationButtons() {

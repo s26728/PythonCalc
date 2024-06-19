@@ -1,8 +1,4 @@
 class Calculator:
-
-    def __init__(self):
-        self.value = 1
-
     def solve(self, expression):
         while len(expression) != 1:
 
@@ -16,8 +12,8 @@ class Calculator:
 
             count = 0
             while count < len(expression) - 1:
-                if (expression[count] in ["*", "/"] and not
-                (self.paranthesis_check([count + 1]) or self.paranthesis_check([count - 1]))):
+                if (expression[count] in ["*", "/"] and not (
+                        self.parenthesis_check([count + 1]) or self.parenthesis_check([count - 1]))):
                     expression[count - 1] = self.perform(
                         expression[count - 1], expression[count], expression[count + 1])
                     del expression[count + 1]
@@ -26,8 +22,8 @@ class Calculator:
 
             count = 0
             while count < len(expression) - 1:
-                if (expression[count] in ["+", "-"] and not
-                (self.paranthesis_check([count + 1]) or self.paranthesis_check([count - 1]))):
+                if (expression[count] in ["+", "-"] and not (
+                        self.parenthesis_check([count + 1]) or self.parenthesis_check([count - 1]))):
                     expression[count - 1] = self.perform(
                         expression[count - 1], expression[count], expression[count + 1])
                     del expression[count + 1]
@@ -46,9 +42,9 @@ class Calculator:
         elif operand == "/":
             return str(self.divide(float(n1), float(n2)))
 
-    def paranthesis_check(self, expression):
-        paranthesis_list = ["(", ")"]
-        if expression in paranthesis_list:
+    def parenthesis_check(self, expression):
+        parenthesis_list = ["(", ")"]
+        if expression in parenthesis_list:
             return True
         else:
             return False
