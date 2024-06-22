@@ -6,6 +6,8 @@ class Calculator:
         while len(expression) != 1:
 
             # Solving the brackets
+            print(expression)
+
             count = 0
             while count < len(expression):
                 if expression[count] == "(":

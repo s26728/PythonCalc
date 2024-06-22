@@ -39,10 +39,9 @@ class Parser:
                 output_list[count + 1] = output_list[count+1] + output_list[count+2]
                 del output_list[count+2]
             # Negative number check
-            elif output_list[count] == "-":
-                if count == 0 or output_list[count-1] == "(":
-                    output_list[count] = output_list[count] + output_list[count + 1]
-                    del output_list[count + 1]
+            elif output_list[count] == "-" and (count == 0 or output_list[count-1] == "("):
+                output_list[count] = output_list[count] + output_list[count + 1]
+                del output_list[count + 1]
             else:
                 count += 1
         return output_list
