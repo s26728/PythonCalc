@@ -2,14 +2,25 @@ class Calculator:
     def solve(self, expression):
         while len(expression) != 1:
 
+            # Solving the brackets
             count = 0
-            while count < len(expression) - 1:
+            while count < len(expression):
                 if expression[count] == "(":
-                    if expression[count + 2] == ")":
-                        del expression[count + 2]
-                        del expression[count]
+                    print(expression)
+                    parenthesis_1_pos = count
+                    parenthesis_2_pos = 0
+
+                    inner_count = 0
+                    while inner_count < len(expression):
+                        if expression[inner_count] == ")":
+                            parenthesis_2_pos = inner_count
+                        inner_count += 1
+
+                    expression[parenthesis_1_pos] = self.solve(expression[parenthesis_1_pos+1:parenthesis_2_pos])
+                    del expression[parenthesis_1_pos+1:parenthesis_2_pos+1]
                 count += 1
 
+            # Multiplication and division
             count = 0
             while count < len(expression) - 1:
                 if (expression[count] in ["*", "/"] and not (
@@ -20,6 +31,7 @@ class Calculator:
                     del expression[count]
                 count += 1
 
+            # Addition and subtraction
             count = 0
             while count < len(expression) - 1:
                 if (expression[count] in ["+", "-"] and not (
