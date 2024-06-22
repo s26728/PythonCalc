@@ -37,4 +37,4 @@ jobs:
     - name: Test with pytest
       run: |
         pytest tests.py
-      working-directory: source/SnakeGame
+      working-directory: source/Calculator
