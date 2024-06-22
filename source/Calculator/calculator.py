@@ -1,5 +1,6 @@
 import math
 
+
 class Calculator:
     def solve(self, expression):
         while len(expression) != 1:
@@ -8,34 +9,33 @@ class Calculator:
             count = 0
             while count < len(expression):
                 if expression[count] == "(":
-                    print(expression)
-
                     parenthesis_1_pos = count
                     parenthesis_2_pos = 0
 
                     inner_count = 0
-                    paranthesis_2_set = False
+                    parenthesis_2_set = False
+
                     while inner_count < len(expression):
                         if expression[inner_count] == "(":
-                            if paranthesis_2_set == False:
+                            if not parenthesis_2_set:
                                 parenthesis_1_pos = inner_count
-                        if expression[inner_count] == ")":
+                        elif expression[inner_count] == ")":
                             parenthesis_2_pos = inner_count
-                            paranthesis_2_set = True
+                            parenthesis_2_set = True
                             break
                         inner_count += 1
 
-                    expression[parenthesis_1_pos] = self.solve(expression[parenthesis_1_pos+1:parenthesis_2_pos])
-                    del expression[parenthesis_1_pos+1:parenthesis_2_pos+1]
+                    expression[parenthesis_1_pos] = self.solve(expression[parenthesis_1_pos + 1:parenthesis_2_pos])
+                    del expression[parenthesis_1_pos + 1:parenthesis_2_pos + 1]
 
                     count = 0
+
                 count += 1
 
             # Logarithms
             count = 0
             while count < len(expression) - 1:
-                if (expression[count] in ["log", "√"] and not (
-                        self.parenthesis_check([count + 1]) or self.parenthesis_check([count - 1]))):
+                if expression[count] in ["log", "√"]:
                     expression[count] = self.perform_special(
                         expression[count], expression[count + 1])
                     del expression[count + 1]
@@ -44,8 +44,7 @@ class Calculator:
             # Multiplication and division
             count = 0
             while count < len(expression) - 1:
-                if (expression[count] in ["*", "/"] and not (
-                        self.parenthesis_check([count + 1]) or self.parenthesis_check([count - 1]))):
+                if expression[count] in ["*", "/"]:
                     expression[count - 1] = self.perform(
                         expression[count - 1], expression[count], expression[count + 1])
                     del expression[count + 1]
@@ -55,8 +54,7 @@ class Calculator:
             # Addition and subtraction
             count = 0
             while count < len(expression) - 1:
-                if (expression[count] in ["+", "-"] and not (
-                        self.parenthesis_check([count + 1]) or self.parenthesis_check([count - 1]))):
+                if expression[count] in ["+", "-"]:
                     expression[count - 1] = self.perform(
                         expression[count - 1], expression[count], expression[count + 1])
                     del expression[count + 1]
@@ -90,7 +88,6 @@ class Calculator:
 
     def brackets_check(self, expression):
         print("haha")
-
 
     def add(self, x, y):
         return x + y
