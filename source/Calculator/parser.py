@@ -38,7 +38,7 @@ class Parser:
             elif output_list[count] in operators and output_list[count + 1] == "-":
                 output_list[count + 1] = output_list[count+1] + output_list[count+2]
                 del output_list[count+2]
-            # First number is negative check
+            # Negative number check
             elif output_list[count] == "-":
                 if count == 0 or output_list[count-1] == "(":
                     output_list[count] = output_list[count] + output_list[count + 1]

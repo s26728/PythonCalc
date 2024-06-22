@@ -34,7 +34,7 @@ class Calculator:
             # Logarithms
             count = 0
             while count < len(expression) - 1:
-                if (expression[count] in ["log"] and not (
+                if (expression[count] in ["log", "√"] and not (
                         self.parenthesis_check([count + 1]) or self.parenthesis_check([count - 1]))):
                     expression[count] = self.perform_special(
                         expression[count], expression[count + 1])
@@ -75,9 +75,11 @@ class Calculator:
         elif operand == "/":
             return str(self.divide(float(n1), float(n2)))
 
-    def perform_special(self, fun, n1):
+    def perform_special(self, fun, n):
         if fun == "log":
-            return self.logarithm(n1)
+            return self.logarithm(float(n))
+        elif fun == "√":
+            return self.root(float(n))
 
     def parenthesis_check(self, expression):
         parenthesis_list = ["(", ")"]
@@ -107,3 +109,6 @@ class Calculator:
 
     def logarithm(self, x):
         return math.log10(x)
+
+    def root(self, x):
+        return math.sqrt(x)
