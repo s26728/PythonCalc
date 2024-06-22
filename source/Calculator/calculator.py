@@ -41,6 +41,7 @@ class Calculator:
                     expression[count] = self.perform_special(
                         expression[count], expression[count + 1])
                     del expression[count + 1]
+                    count = 0
                 count += 1
 
             # Multiplication and division
@@ -51,6 +52,7 @@ class Calculator:
                         expression[count - 1], expression[count], expression[count + 1])
                     del expression[count + 1]
                     del expression[count]
+                    count = 0
                 count += 1
 
             # Addition and subtraction
@@ -61,6 +63,7 @@ class Calculator:
                         expression[count - 1], expression[count], expression[count + 1])
                     del expression[count + 1]
                     del expression[count]
+                    count = 0
                 count += 1
 
         return float(expression[0])
@@ -77,16 +80,9 @@ class Calculator:
 
     def perform_special(self, fun, n):
         if fun == "log":
-            return self.logarithm(float(n))
+            return str(self.logarithm(float(n)))
         elif fun == "√":
-            return self.root(float(n))
-
-    def parenthesis_check(self, expression):
-        parenthesis_list = ["(", ")"]
-        if expression in parenthesis_list:
-            return True
-        else:
-            return False
+            return str(self.root(float(n)))
 
     def brackets_check(self, expression):
         print("haha")

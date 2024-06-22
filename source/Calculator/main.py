@@ -23,5 +23,3 @@ def solve():
 
 if __name__ == "__main__":
     app.run()
-    expression = "8-8"
-    print(parser.parse(expression))
