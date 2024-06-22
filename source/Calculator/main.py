@@ -23,7 +23,8 @@ def solve():
 
 if __name__ == "__main__":
     #app.run()
-    expression = "-5-1"
+    expression = "-5*-1+(-1+5)"
+    print(parser.number_check(-1))
     print(parser.parse(expression))
     print(calculator.solve(parser.parse(expression)))
     # print(calculator.solve(['log', '(', '4', '*', '3', ')', '+', '(', '3', '/', '2', ')']))

@@ -10,6 +10,8 @@ class Parser:
         # Remove spaces
         input_expression = input_expression.replace(" ", "")
 
+        operators = ["+", "-", "*", "/"]
+
         # Build the list
         output_list = []
         for element in input_expression:
@@ -32,6 +34,15 @@ class Parser:
                 output_list[count] = "log"
                 del output_list[count + 2]
                 del output_list[count + 1]
+            # Negative number check
+            elif output_list[count] in operators and output_list[count + 1] == "-":
+                output_list[count + 1] = output_list[count+1] + output_list[count+2]
+                del output_list[count+2]
+            # First number is negative check
+            elif output_list[count] == "-":
+                if count == 0 or output_list[count-1] == "(":
+                    output_list[count] = output_list[count] + output_list[count + 1]
+                    del output_list[count + 1]
             else:
                 count += 1
         return output_list
