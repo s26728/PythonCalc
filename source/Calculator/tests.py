@@ -44,13 +44,16 @@ def test_logarithm():
     calculator = Calculator()
     assert calculator.solve(parser.parse(expression)) == 2
 
+
 def test_perform():
     calculator = Calculator()
     assert calculator.perform("1", "+", "5") == "6.0"
 
+
 def test_perform_special():
     calculator = Calculator()
     assert calculator.perform_special("√", "25") == "5.0"
+
 
 def test_solver_general():
     expression = "12+3*9/2+88/2+2+5"
