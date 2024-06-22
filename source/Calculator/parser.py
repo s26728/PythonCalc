@@ -7,12 +7,18 @@ class Parser:
             return False
 
     def list_convert(self, input_expression):
+        # Remove spaces
         input_expression = input_expression.replace(" ", "")
+
+        # Build the list
         output_list = []
         for element in input_expression:
             output_list.append(element)
+
         count = 0
         while count < len(output_list) - 1:
+
+            # Merge separate characters into numbers
             if self.number_check(output_list[count]) and self.number_check(output_list[count + 1]):
                 output_list[count] += output_list[count + 1]
                 del output_list[count + 1]
@@ -21,6 +27,11 @@ class Parser:
                     output_list[count] += output_list[count + 1] + output_list[count + 2]
                     del output_list[count + 2]
                     del output_list[count + 1]
+            # log function merge
+            elif output_list[count] == "l":
+                output_list[count] = "log"
+                del output_list[count + 2]
+                del output_list[count + 1]
             else:
                 count += 1
         return output_list
